@@ -14,8 +14,9 @@ directory ="/home/pi/RoadRunner/imgs"
 mycommand = "raspistill -o /home/pi/RoadRunner/imgs/foo.jpg"
 #this is the actual 'do stuff' part. It runs forever
 while True:
-	#camera.start_preview()
-	camera.capture('/home/pi/RoadRunner/imgs/foo.jpg')
+#	camera.start_preview() #keep commented. will show screen but no way of exit without turning off pi
+	camera.capture('/home/pi/RoadRunner/foo.jpg')
 	#os.system(mycommand)
 	print('captured')
 	time.sleep(delay)
+
