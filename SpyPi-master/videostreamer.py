@@ -3,28 +3,24 @@ import sys
 import numpy
 import time
 import pickle
-from imutils.video import VideoStream
+from imutils.video import FileVideoStream
 import imutils
 
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
 face_recog = cv2.createLBPHFaceRecognizer()
-#video_capture = cv2.VideoCapture(0)
 
 # Set initial frame size.
 frameSize = (320, 240)
-vs = VideoStream(src=0, usePiCamera=True, resolution=frameSize,
-		framerate=32).start()
-		
+fvs = FileVideoStream("/home/pi/RoadRunner/SpyPi-master/me1.avi").start()
 # Allow the camera to warm up.
-time.sleep(2.0)
+time.sleep(1.0)
 
-def detect_face(all_faces, face_recog, face_count):
+def detect_face():
     
     # Capture frame-by-frame
-    frame = vs.read()
-    frame = imutils.resize(frame, width=200)#by makingframe smaller we allow faster processing
-
+    frame = fvs.read()
+    frame = imutils.resize(frame, width=120)
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -39,31 +35,26 @@ def detect_face(all_faces, face_recog, face_count):
     # Draw a rectangle around the faces
     for (x, y, w, h) in faces:
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+	
 	# also can put a trigger here
-	cv2.imwrite('/home/pi/RoadRunner/SpyPi-master/me1.png', frame)
-
+	#cv2.imwrite('/home/pi/RoadRunner/SpyPi-master/me1.png', frame)
+	print('capturing frame')
 
 
     # Display the resulting frame
     
     cv2.imshow('Video', frame)
 
-while True:
-#while (video_capture.isOpened()):
+while fvs.more():
 	
-	detect_face(all_faces, face_recog, face_count)
+	detect_face()
 
-	checkme = cv2.waitKey(25)
+	checkme = cv2.waitKey(50)
 
 	if checkme & 0xFF == ord('q'):
 		print "Exiting"
 		break
 
-	#time.sleep(1) # put a pause in
-vs.stop()
-
 # When everything is done, release the capture
 cv2.destroyAllWindows()
-vs.stop()
-
-
+fvs.stop()
