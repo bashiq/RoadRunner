@@ -34,7 +34,7 @@ def fileNamer():
 #put boxes around detected object and save image
 def detect_face(face_recog):
 	global highestcount
-    
+
 	# Capture frame-by-frame
 	frame = vs.read()
 	originalframeSize = frame
@@ -48,7 +48,8 @@ def detect_face(face_recog):
 		scaleFactor=1.1,
 		minNeighbors=5,
 		minSize=(30, 30),
-		flags=cv2.cv.CV_HAAR_SCALE_IMAGE
+		#flags=cv2.cv.CV_HAAR_SCALE_IMAGE#for opencv 3....
+		flags = cv2.CASCADE_SCALE_IMAGE
 	)
 
 	# Draw a rectangle around the faces
@@ -63,7 +64,7 @@ def detect_face(face_recog):
 
 	# Display the resulting frame
 	cv2.imshow('Video', frame)
-	
+
 #_______________________________________________________________________
 
 
@@ -75,7 +76,8 @@ def detect_face(face_recog):
 
 cascPath = "haarcascade_frontalface_default.xml"
 faceCascade = cv2.CascadeClassifier(cascPath)
-face_recog = cv2.createLBPHFaceRecognizer()
+#face_recog = cv2.createLBPHFaceRecognizer()#for opencv 3..
+face_recog = faceCascade.cv2.LBPHFaceRecognizer_create()
 #video_capture = cv2.VideoCapture(0)
 
 
@@ -86,38 +88,36 @@ filename ="road"
 stem =".jpg"
 highestcount =0
 initialList ={}	
-			
+
 fileNamer()
 #print("iam max " + str((max)))	
 
 # Set initial frame size.
 frameSize = (960, 720)#change this number to change image resolution for saving
-vs = VideoStream(src=0, usePiCamera=True, resolution=frameSize,
-		framerate=32).start()
-		
+vs = VideoStream(src=0, usePiCamera=True, resolution=frameSize,framerate=32).start()
+
 # Allow the camera to warm up.
 time.sleep(1.0)
 
 
 
 
-
 #this is the actual 'do stuff' part. It runs forever
 while True:	
-		
+
 	#do the below function
 	detect_face(face_recog)
 
 	checkme = cv2.waitKey(25)
 
 	if checkme & 0xFF == ord('q'):
-		print "Exiting"
+		print ("Exiting")
 		break
 
 	#time.sleep(1) # put a pause in
-	
+
 	#time.sleep(delay)
-	
+
 # When everything is done, release the capture
 vs.stop()
 cv2.destroyAllWindows()

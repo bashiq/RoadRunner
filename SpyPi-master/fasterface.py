@@ -14,7 +14,7 @@ face_recog = cv2.createLBPHFaceRecognizer()
 # Set initial frame size.
 frameSize = (320, 240)
 vs = VideoStream(src=0, usePiCamera=True, resolution=frameSize, framerate=32).start()
-		
+
 # Allow the camera to warm up.
 time.sleep(2.0)
 
@@ -36,7 +36,7 @@ def detect_face(face_recog):
 
     # Draw a rectangle around the faces
     for (x, y, w, h) in faces:
-	cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2) 
+	cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 	# also can put a trigger here
 	cv2.imwrite("/home/pi/RoadRunner/SpyPi-master/me1.png", frame)
 
@@ -47,16 +47,16 @@ def detect_face(face_recog):
     cv2.imshow('Video', frame)
 
 while True:
-	#do the above function
-	detect_face(face_recog)
+    #do the above function
+    detect_face(face_recog)
 
-	checkme = cv2.waitKey(25)
+    checkme = cv2.waitKey(25)
 
-	if checkme & 0xFF == ord('q'):
-	    print "Exiting"
-	    break
+    if checkme & 0xFF == ord('q'):
+	print "Exiting"
+	break
 
-	#time.sleep(1) # put a pause in
+    #time.sleep(1) # put a pause in
 
 # When everything is done, release the capture
 cv2.destroyAllWindows()
