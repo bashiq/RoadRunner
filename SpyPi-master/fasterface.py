@@ -61,7 +61,7 @@ def detect_face(all_faces, face_recog, face_count):
 		cv2.imshow('Video', frame)
 		#return faces_found
 
-monitor_thermals()
+	#monitor_thermals()
 
 while True:
 	#while (video_capture.isOpened()):
