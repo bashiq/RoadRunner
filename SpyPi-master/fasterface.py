@@ -57,9 +57,9 @@ def detect_face(all_faces, face_recog, face_count):
 		#faces_found.append(grayface)
 
 
-		# Display the resulting frame
-		cv2.imshow('Video', frame)
-		#return faces_found
+	# Display the resulting frame
+	cv2.imshow('Video', frame)
+	#return faces_found
 
 	#monitor_thermals()
 
